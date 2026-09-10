@@ -1,587 +1,317 @@
-```html
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>REST IN BASS: ENCORE</title>
 
-<title>REST IN BASS: ENCORE — CHE</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-<style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+            background:
+                radial-gradient(circle at 80% 20%, rgba(100, 0, 0, 0.35), transparent 35%),
+                radial-gradient(circle at 20% 80%, rgba(40, 40, 40, 0.25), transparent 35%),
+                #090909;
+        }
 
-body {
-    min-height: 100vh;
-    background:
-        radial-gradient(circle at 80% 40%, rgba(100,0,0,.30), transparent 40%),
-        radial-gradient(circle at 10% 80%, rgba(70,0,0,.20), transparent 35%),
-        #070707;
+        .page {
+            width: 92%;
+            max-width: 1500px;
+            margin: auto;
 
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-}
+            display: grid;
+            grid-template-columns: 1.35fr 0.75fr;
+            gap: 70px;
 
+            padding: 50px 0;
+        }
 
-/* Тёмный прозрачный фон */
+        .tracks {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
 
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
+        .title {
+            margin-bottom: 20px;
+        }
 
-    background: rgba(0,0,0,.35);
+        .title h1 {
+            font-size: 42px;
+            margin: 0 0 8px 0;
+            letter-spacing: 2px;
+        }
 
-    backdrop-filter: blur(3px);
+        .title p {
+            margin: 0;
+            color: #999;
+            font-size: 15px;
+        }
 
-    pointer-events: none;
-}
+        .track {
+            padding: 18px 20px;
 
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 14px;
+
+            backdrop-filter: blur(10px);
+
+            transition: 0.25s;
+        }
+
+        .track:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .track-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        audio {
+            width: 100%;
+            height: 40px;
+        }
+
+        .cover-area {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+
+            position: sticky;
+            top: 40px;
+        }
+
+        .cover-box {
+            width: min(430px, 100%);
+            aspect-ratio: 1 / 1;
+
+            padding: 9px;
+
+            border-radius: 22px;
 
-/* ОСНОВНАЯ СТРАНИЦА */
+            background: rgba(255, 255, 255, 0.05);
 
-.page {
-    width: 92%;
-    max-width: 1500px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
 
-    margin: auto;
+            backdrop-filter: blur(15px);
 
-    display: grid;
-    grid-template-columns: 1.4fr .8fr;
+            box-shadow:
+                0 20px 70px rgba(0, 0, 0, 0.8),
+                0 0 70px rgba(120, 0, 0, 0.3);
+        }
 
-    gap: 70px;
+        .cover-box img {
+            width: 100%;
+            height: 100%;
 
-    padding: 50px 0;
-}
+            display: block;
 
+            object-fit: cover;
 
-/* ЛЕВАЯ ЧАСТЬ */
+            border-radius: 15px;
+        }
 
-.left {
-    position: relative;
-    z-index: 2;
-}
+        .album-info {
+            text-align: center;
+            margin-top: 18px;
+        }
 
-h1 {
-    font-size: clamp(38px, 4vw, 65px);
-    font-weight: 900;
+        .album-info h2 {
+            margin: 0;
+            font-size: 24px;
+        }
 
-    line-height: .95;
+        .album-info p {
+            color: #888;
+            margin-top: 7px;
+        }
 
-    letter-spacing: -3px;
+        @media (max-width: 850px) {
 
-    margin-bottom: 12px;
+            .page {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 30px 0;
+            }
 
-    text-transform: uppercase;
-}
+            .cover-area {
+                grid-row: 1;
+                position: static;
+            }
 
-.artist {
-    color: #777;
+            .cover-box {
+                width: min(400px, 90%);
+            }
 
-    font-size: 18px;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 35px;
-}
-
-
-/* КАРТОЧКА ТРЕКА */
-
-.track {
-    background: rgba(255,255,255,.045);
-
-    border: 1px solid rgba(255,255,255,.08);
-
-    border-radius: 14px;
-
-    padding: 16px 20px;
-
-    margin-bottom: 13px;
-
-    backdrop-filter: blur(15px);
-
-    transition: .25s;
-}
-
-.track:hover {
-    transform: translateX(5px);
-
-    background: rgba(130,0,0,.12);
-
-    border-color: rgba(180,0,0,.35);
-
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
-}
-
-
-/* НАЗВАНИЕ */
-
-.track-name {
-    display: flex;
-    align-items: center;
-
-    gap: 15px;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    margin-bottom: 9px;
-}
-
-.number {
-    width: 25px;
-
-    color: #666;
-
-    font-size: 12px;
-}
-
-
-/* ПЛЕЕР */
-
-audio {
-    width: 100%;
-    height: 38px;
-
-    opacity: .85;
-
-    filter:
-        invert(1)
-        sepia(1)
-        saturate(5)
-        hue-rotate(315deg)
-        brightness(.75);
-}
-
-
-/* ПРАВАЯ ЧАСТЬ */
-
-.right {
-    position: sticky;
-    top: 50px;
-
-    height: fit-content;
-
-    display: flex;
-    justify-content: center;
-
-    z-index: 2;
-}
-
-
-/* ОБЛОЖКА */
-
-.album {
-    width: min(430px, 90%);
-
-    text-align: center;
-}
-
-
-/* РАМКА ВОКРУГ ОБЛОЖКИ */
-
-.cover-box {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-
-    padding: 9px;
-
-    border-radius: 22px;
-
-    background: rgba(255,255,255,.05);
-
-    border: 1px solid rgba(255,255,255,.12);
-
-    backdrop-filter: blur(15px);
-
-    box-shadow:
-        0 20px 70px rgba(0,0,0,.7),
-        0 0 60px rgba(130,0,0,.25);
-
-    animation: floating 6s ease-in-out infinite;
-}
-
-
-/* САМА КАРТИНКА */
-
-.cover-box img {
-    width: 100%;
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 15px 50px rgba(0,0,0,.7);
-}
-
-
-/* ПЛАВНОЕ ДВИЖЕНИЕ */
-
-@keyframes floating {
-
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-
-}
-
-
-/* ТЕКСТ ПОД ОБЛОЖКОЙ */
-
-.album-title {
-    margin-top: 22px;
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-.album-subtitle {
-    margin-top: 7px;
-
-    color: #777;
-
-    font-size: 14px;
-
-    letter-spacing: 2px;
-}
-
-
-/* МОБИЛЬНАЯ ВЕРСИЯ */
-
-@media (max-width: 900px) {
-
-    .page {
-        grid-template-columns: 1fr;
-
-        gap: 40px;
-    }
-
-    .right {
-        position: relative;
-
-        top: 0;
-
-        order: -1;
-    }
-
-    .album {
-        width: min(450px, 90vw);
-    }
-
-}
-
-</style>
+            .title h1 {
+                font-size: 30px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <div class="page">
 
+    <!-- ЛЕВАЯ ЧАСТЬ -->
 
-    <!-- ====================== -->
-    <!-- ЛЕВАЯ ЧАСТЬ — ТРЕКИ -->
-    <!-- ====================== -->
+    <div class="tracks">
 
-    <section class="left">
-
-        <h1>
-            REST IN BASS:<br>
-            ENCORE
-        </h1>
-
-        <div class="artist">
-            CHE · 14 TRACKS
+        <div class="title">
+            <h1>REST IN BASS: ENCORE</h1>
+            <p>Che • 14 tracks</p>
         </div>
 
-
-        <!-- 01 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">01</span>
-                KING OF ROCK
-            </div>
-
+            <div class="track-name">01 — KING OF ROCK</div>
             <audio controls>
-                <source src="01 KING OF ROCK.mp3" type="audio/mpeg">
+                <source src="Che - KING OF ROCK.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 02 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">02</span>
-                MAKE OUT WITH MY CHOPPA
-            </div>
-
+            <div class="track-name">02 — MAKE OUT WITH MY CHOPPA</div>
             <audio controls>
-                <source src="02 MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
+                <source src="Che - MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 03 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">03</span>
-                HOLY MOLY
-            </div>
-
+            <div class="track-name">03 — HOLY MOLY</div>
             <audio controls>
-                <source src="03 HOLY MOLY.mp3" type="audio/mpeg">
+                <source src="Che - HOLY MOLY.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 04 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">04</span>
-                DIE HARD
-            </div>
-
+            <div class="track-name">04 — DIE HARD</div>
             <audio controls>
-                <source src="04 DIE HARD.mp3" type="audio/mpeg">
+                <source src="Che - DIE HARD.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 05 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">05</span>
-                CUTTHROAT
-            </div>
-
+            <div class="track-name">05 — CUTTHROAT</div>
             <audio controls>
-                <source src="05 CUTTHROAT.mp3" type="audio/mpeg">
+                <source src="Che - CUTTHROAT.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 06 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">06</span>
-                MONSTER
-            </div>
-
+            <div class="track-name">06 — MONSTER</div>
             <audio controls>
-                <source src="06 MONSTER.mp3" type="audio/mpeg">
+                <source src="Che - MONSTER.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 07 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">07</span>
-                DIRTY SPRITE
-            </div>
-
+            <div class="track-name">07 — DIRTY SPRITE</div>
             <audio controls>
-                <source src="07 DIRTY SPRITE.mp3" type="audio/mpeg">
+                <source src="Che - DIRTY SPRITE.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 08 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">08</span>
-                SERVE DA BA$$
-            </div>
-
+            <div class="track-name">08 — SERVE DA BA$$</div>
             <audio controls>
-                <source src="08 SERVE DA BA$$.mp3" type="audio/mpeg">
+                <source src="Che - SERVE DA BA$$.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 09 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">09</span>
-                RIRI
-            </div>
-
+            <div class="track-name">09 — RIRI</div>
             <audio controls>
-                <source src="09 RIRI.mp3" type="audio/mpeg">
+                <source src="Che - RIRI.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 10 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">10</span>
-                WHIPPIN
-            </div>
-
+            <div class="track-name">10 — WHIPPIN</div>
             <audio controls>
-                <source src="10 WHIPPIN.mp3" type="audio/mpeg">
+                <source src="Che - WHIPPIN.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 11 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">11</span>
-                WHATS LOVE
-            </div>
-
+            <div class="track-name">11 — WHATS LOVE</div>
             <audio controls>
-                <source src="11 WHATS LOVE.mp3" type="audio/mpeg">
+                <source src="Che - WHATS LOVE.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 12 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">12</span>
-                FREAK NEEK
-            </div>
-
+            <div class="track-name">12 — FREAK NEEK</div>
             <audio controls>
-                <source src="12 FREAK NEEK.mp3" type="audio/mpeg">
+                <source src="Che - FREAK NEEK.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 13 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">13</span>
-                UAV
-            </div>
-
+            <div class="track-name">13 — UAV</div>
             <audio controls>
-                <source src="13 UAV.mp3" type="audio/mpeg">
+                <source src="Che - UAV.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-        <!-- 14 -->
 
         <div class="track">
-
-            <div class="track-name">
-                <span class="number">14</span>
-                IM SORRY
-            </div>
-
+            <div class="track-name">14 — IM SORRY</div>
             <audio controls>
-                <source src="14 IM SORRY.mp3" type="audio/mpeg">
+                <source src="Che - IM SORRY.mp3" type="audio/mpeg">
             </audio>
-
         </div>
 
-
-    </section>
-
+    </div>
 
 
-    <!-- ====================== -->
-    <!-- ПРАВАЯ ЧАСТЬ -->
-    <!-- ====================== -->
+    <!-- ОБЛОЖКА СПРАВА -->
 
-    <section class="right">
+    <div class="cover-area">
 
-        <div class="album">
-
-
-            <!-- ТВОЯ ОБЛОЖКА -->
+        <div>
 
             <div class="cover-box">
-
-                <img
-                    src="cover.jpg"
-                    alt="REST IN BASS: ENCORE">
-
+                <img src="cover.jpg" alt="REST IN BASS: ENCORE">
             </div>
 
-
-            <div class="album-title">
-                CHE
+            <div class="album-info">
+                <h2>Che</h2>
+                <p>REST IN BASS: ENCORE</p>
             </div>
-
-            <div class="album-subtitle">
-                REST IN BASS: ENCORE
-            </div>
-
 
         </div>
 
-    </section>
-
+    </div>
 
 </div>
 
-
 </body>
 </html>
-```
