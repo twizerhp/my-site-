@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>REST IN BASS: ENCORE</title>
+    <title>Encore</title>
 
     <style>
         * {
@@ -13,152 +13,124 @@
 
         body {
             margin: 0;
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
+            background: #000;
             color: white;
-
-            background:
-                radial-gradient(circle at 80% 20%, rgba(100, 0, 0, 0.35), transparent 35%),
-                radial-gradient(circle at 20% 80%, rgba(40, 40, 40, 0.25), transparent 35%),
-                #090909;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
         }
 
-        .page {
-            width: 92%;
-            max-width: 1500px;
-            margin: auto;
-
-            display: grid;
-            grid-template-columns: 1.35fr 0.75fr;
-            gap: 70px;
-
-            padding: 50px 0;
+        .player {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
         }
 
-        .tracks {
+        /* ЛЕВАЯ ЧАСТЬ */
+        .left {
+            width: 50%;
+            height: 100%;
+            padding: 60px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            justify-content: center;
         }
 
         .title {
-            margin-bottom: 20px;
-        }
-
-        .title h1 {
             font-size: 42px;
-            margin: 0 0 8px 0;
-            letter-spacing: 2px;
-        }
-
-        .title p {
-            margin: 0;
-            color: #999;
-            font-size: 15px;
-        }
-
-        .track {
-            padding: 18px 20px;
-
-            background: rgba(255, 255, 255, 0.045);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-
-            border-radius: 14px;
-
-            backdrop-filter: blur(10px);
-
-            transition: 0.25s;
-        }
-
-        .track:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateX(5px);
+            font-weight: bold;
+            margin-bottom: 35px;
         }
 
         .track-name {
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 30px;
+            margin-bottom: 25px;
+            word-break: break-word;
         }
 
-        audio {
+        .progress-container {
             width: 100%;
-            height: 40px;
+            height: 6px;
+            background: #333;
+            cursor: pointer;
+            margin-bottom: 12px;
         }
 
-        .cover-area {
+        .progress {
+            height: 100%;
+            width: 0%;
+            background: white;
+        }
+
+        .time {
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-
-            position: sticky;
-            top: 40px;
+            justify-content: space-between;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 30px;
         }
 
-        .cover-box {
-            width: min(430px, 100%);
-            aspect-ratio: 1 / 1;
-
-            padding: 9px;
-
-            border-radius: 22px;
-
-            background: rgba(255, 255, 255, 0.05);
-
-            border: 1px solid rgba(255, 255, 255, 0.12);
-
-            backdrop-filter: blur(15px);
-
-            box-shadow:
-                0 20px 70px rgba(0, 0, 0, 0.8),
-                0 0 70px rgba(120, 0, 0, 0.3);
+        .controls {
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
-        .cover-box img {
+        button {
+            border: none;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-size: 30px;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            opacity: 0.6;
+            transform: scale(1.08);
+        }
+
+        #play {
+            font-size: 42px;
+        }
+
+        /* ПРАВАЯ ЧАСТЬ */
+        .right {
+            width: 50%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cover {
             width: 100%;
             height: 100%;
-
-            display: block;
-
             object-fit: cover;
-
-            border-radius: 15px;
+            display: block;
         }
 
-        .album-info {
-            text-align: center;
-            margin-top: 18px;
-        }
-
-        .album-info h2 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        .album-info p {
-            color: #888;
-            margin-top: 7px;
-        }
-
-        @media (max-width: 850px) {
-
-            .page {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 30px 0;
+        @media (max-width: 800px) {
+            body {
+                overflow: auto;
             }
 
-            .cover-area {
-                grid-row: 1;
-                position: static;
+            .player {
+                flex-direction: column;
+                height: auto;
+                min-height: 100vh;
             }
 
-            .cover-box {
-                width: min(400px, 90%);
+            .left,
+            .right {
+                width: 100%;
             }
 
-            .title h1 {
-                font-size: 30px;
+            .left {
+                min-height: 50vh;
+                padding: 30px;
+            }
+
+            .right {
+                height: 50vh;
             }
         }
     </style>
@@ -166,152 +138,439 @@
 
 <body>
 
-<div class="page">
+<div class="player">
 
-    <!-- ЛЕВАЯ ЧАСТЬ -->
-
-    <div class="tracks">
+    <!-- ЛЕВАЯ СТОРОНА -->
+    <div class="left">
 
         <div class="title">
-            <h1>REST IN BASS: ENCORE</h1>
-            <p>Che • 14 tracks</p>
+            ENCORE
         </div>
 
-
-        <div class="track">
-            <div class="track-name">01 — KING OF ROCK</div>
-            <audio controls>
-                <source src="Che - KING OF ROCK.mp3" type="audio/mpeg">
-            </audio>
+        <div class="track-name" id="trackName">
+            Трек 1
         </div>
 
-
-        <div class="track">
-            <div class="track-name">02 — MAKE OUT WITH MY CHOPPA</div>
-            <audio controls>
-                <source src="Che - MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
-            </audio>
+        <div class="progress-container" id="progressContainer">
+            <div class="progress" id="progress"></div>
         </div>
 
-
-        <div class="track">
-            <div class="track-name">03 — HOLY MOLY</div>
-            <audio controls>
-                <source src="Che - HOLY MOLY.mp3" type="audio/mpeg">
-            </audio>
+        <div class="time">
+            <span id="currentTime">0:00</span>
+            <span id="duration">0:00</span>
         </div>
 
+        <div class="controls">
 
-        <div class="track">
-            <div class="track-name">04 — DIE HARD</div>
-            <audio controls>
-                <source src="Che - DIE HARD.mp3" type="audio/mpeg">
-            </audio>
-        </div>
+            <button id="prev">
+                ⏮
+            </button>
 
+            <button id="play">
+                ▶
+            </button>
 
-        <div class="track">
-            <div class="track-name">05 — CUTTHROAT</div>
-            <audio controls>
-                <source src="Che - CUTTHROAT.mp3" type="audio/mpeg">
-            </audio>
-        </div>
+            <button id="next">
+                ⏭
+            </button>
 
-
-        <div class="track">
-            <div class="track-name">06 — MONSTER</div>
-            <audio controls>
-                <source src="Che - MONSTER.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">07 — DIRTY SPRITE</div>
-            <audio controls>
-                <source src="Che - DIRTY SPRITE.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">08 — SERVE DA BA$$</div>
-            <audio controls>
-                <source src="Che - SERVE DA BA$$.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">09 — RIRI</div>
-            <audio controls>
-                <source src="Che - RIRI.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">10 — WHIPPIN</div>
-            <audio controls>
-                <source src="Che - WHIPPIN.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">11 — WHATS LOVE</div>
-            <audio controls>
-                <source src="Che - WHATS LOVE.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">12 — FREAK NEEK</div>
-            <audio controls>
-                <source src="Che - FREAK NEEK.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">13 — UAV</div>
-            <audio controls>
-                <source src="Che - UAV.mp3" type="audio/mpeg">
-            </audio>
-        </div>
-
-
-        <div class="track">
-            <div class="track-name">14 — IM SORRY</div>
-            <audio controls>
-                <source src="Che - IM SORRY.mp3" type="audio/mpeg">
-            </audio>
         </div>
 
     </div>
 
 
-    <!-- ОБЛОЖКА СПРАВА -->
+    <!-- ПРАВАЯ СТОРОНА -->
+    <div class="right">
 
-    <div class="cover-area">
-
-        <div>
-
-            <div class="cover-box">
-                <img src="cover.jpg" alt="REST IN BASS: ENCORE">
-            </div>
-
-            <div class="album-info">
-                <h2>Che</h2>
-                <p>REST IN BASS: ENCORE</p>
-            </div>
-
-        </div>
+        <img
+            id="cover"
+            class="cover"
+            src="cover.jpg"
+            alt="Cover"
+        >
 
     </div>
 
 </div>
+
+
+<!-- ЕДИНСТВЕННЫЙ AUDIO -->
+<audio id="audio"></audio>
+
+
+<script>
+
+    /*
+    ==========================================
+                ТВОИ ТРЕКИ
+    ==========================================
+    */
+
+    const tracks = [
+
+        {
+            name: "Che - IM SORRY",
+            file: "Che - IM SORRY.mp3",
+            cover: "cover.jpg"
+        },
+
+        {
+            name: "Трек 2",
+            file: "track2.mp3",
+            cover: "cover2.jpg"
+        },
+
+        {
+            name: "Трек 3",
+            file: "track3.mp3",
+            cover: "cover3.jpg"
+        },
+
+        {
+            name: "Трек 4",
+            file: "track4.mp3",
+            cover: "cover4.jpg"
+        }
+
+    ];
+
+
+    /*
+    ==========================================
+                ЭЛЕМЕНТЫ
+    ==========================================
+    */
+
+    const audio = document.getElementById("audio");
+
+    const playButton = document.getElementById("play");
+    const prevButton = document.getElementById("prev");
+    const nextButton = document.getElementById("next");
+
+    const trackName = document.getElementById("trackName");
+    const cover = document.getElementById("cover");
+
+    const progress = document.getElementById("progress");
+    const progressContainer = document.getElementById("progressContainer");
+
+    const currentTimeElement = document.getElementById("currentTime");
+    const durationElement = document.getElementById("duration");
+
+
+    /*
+    ==========================================
+                ТЕКУЩИЙ ТРЕК
+    ==========================================
+    */
+
+    let currentTrack = 0;
+
+
+    /*
+    ==========================================
+                ЗАГРУЗКА ТРЕКА
+    ==========================================
+    */
+
+    function loadTrack(index, autoplay = false) {
+
+        currentTrack = index;
+
+        const track = tracks[currentTrack];
+
+        /*
+        СНАЧАЛА ОСТАНАВЛИВАЕМ
+        ПРЕДЫДУЩИЙ ТРЕК
+        */
+
+        audio.pause();
+
+        audio.currentTime = 0;
+
+        /*
+        Загружаем новый
+        */
+
+        audio.src = track.file;
+
+        audio.load();
+
+        /*
+        Меняем название
+        */
+
+        trackName.textContent = track.name;
+
+        /*
+        Меняем обложку
+        */
+
+        cover.src = track.cover;
+
+        /*
+        Сбрасываем прогресс
+        */
+
+        progress.style.width = "0%";
+
+        currentTimeElement.textContent = "0:00";
+
+        durationElement.textContent = "0:00";
+
+        playButton.textContent = "▶";
+
+
+        /*
+        Если нужно сразу запустить
+        */
+
+        if (autoplay) {
+
+            audio.play()
+                .then(() => {
+
+                    playButton.textContent = "Ⅱ";
+
+                })
+                .catch(error => {
+
+                    console.log("Автозапуск заблокирован браузером:", error);
+
+                });
+
+        }
+
+    }
+
+
+    /*
+    ==========================================
+                    PLAY / PAUSE
+    ==========================================
+    */
+
+    playButton.addEventListener("click", () => {
+
+        if (audio.paused) {
+
+            audio.play();
+
+            playButton.textContent = "Ⅱ";
+
+        } else {
+
+            audio.pause();
+
+            playButton.textContent = "▶";
+
+        }
+
+    });
+
+
+    /*
+    ==========================================
+                    NEXT
+    ==========================================
+    */
+
+    nextButton.addEventListener("click", () => {
+
+        let nextTrack = currentTrack + 1;
+
+        /*
+        Если дошли до конца —
+        возвращаемся на первый
+        */
+
+        if (nextTrack >= tracks.length) {
+
+            nextTrack = 0;
+
+        }
+
+        /*
+        Загружаем и сразу запускаем
+        */
+
+        loadTrack(nextTrack, true);
+
+    });
+
+
+    /*
+    ==========================================
+                    PREVIOUS
+    ==========================================
+    */
+
+    prevButton.addEventListener("click", () => {
+
+        let previousTrack = currentTrack - 1;
+
+        /*
+        Если мы на первом —
+        переходим на последний
+        */
+
+        if (previousTrack < 0) {
+
+            previousTrack = tracks.length - 1;
+
+        }
+
+        /*
+        Загружаем и сразу запускаем
+        */
+
+        loadTrack(previousTrack, true);
+
+    });
+
+
+    /*
+    ==========================================
+            АВТОМАТИЧЕСКИ СЛЕДУЮЩАЯ ПЕСНЯ
+    ==========================================
+    */
+
+    audio.addEventListener("ended", () => {
+
+        let nextTrack = currentTrack + 1;
+
+        /*
+        Если последний трек закончился —
+        начинаем сначала
+        */
+
+        if (nextTrack >= tracks.length) {
+
+            nextTrack = 0;
+
+        }
+
+        /*
+        Следующий трек запускается автоматически
+        */
+
+        loadTrack(nextTrack, true);
+
+    });
+
+
+    /*
+    ==========================================
+                ОБНОВЛЕНИЕ ПРОГРЕССА
+    ==========================================
+    */
+
+    audio.addEventListener("timeupdate", () => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+        const percentage =
+            (audio.currentTime / audio.duration) * 100;
+
+        progress.style.width = percentage + "%";
+
+        currentTimeElement.textContent =
+            formatTime(audio.currentTime);
+
+    });
+
+
+    /*
+    ==========================================
+                ДЛИТЕЛЬНОСТЬ
+    ==========================================
+    */
+
+    audio.addEventListener("loadedmetadata", () => {
+
+        durationElement.textContent =
+            formatTime(audio.duration);
+
+    });
+
+
+    /*
+    ==========================================
+                ОШИБКА АУДИО
+    ==========================================
+    */
+
+    audio.addEventListener("error", () => {
+
+        console.log(
+            "Не удалось загрузить:",
+            tracks[currentTrack].file
+        );
+
+    });
+
+
+    /*
+    ==========================================
+                ПЕРЕМАТЫВАНИЕ
+    ==========================================
+    */
+
+    progressContainer.addEventListener("click", (event) => {
+
+        if (!audio.duration) {
+            return;
+        }
+
+        const width =
+            progressContainer.clientWidth;
+
+        const clickX =
+            event.offsetX;
+
+        const newTime =
+            (clickX / width) * audio.duration;
+
+        audio.currentTime = newTime;
+
+    });
+
+
+    /*
+    ==========================================
+                ФОРМАТ ВРЕМЕНИ
+    ==========================================
+    */
+
+    function formatTime(seconds) {
+
+        if (isNaN(seconds)) {
+            return "0:00";
+        }
+
+        const minutes =
+            Math.floor(seconds / 60);
+
+        const secs =
+            Math.floor(seconds % 60);
+
+        return minutes + ":" +
+            (secs < 10 ? "0" : "") +
+            secs;
+
+    }
+
+
+    /*
+    ==========================================
+            ЗАПУСК ПЕРВОГО ТРЕКА
+    ==========================================
+    */
+
+    loadTrack(0, false);
+
+</script>
 
 </body>
 </html>
