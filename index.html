@@ -1,6 +1,7 @@
 ```html
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 
 <meta charset="UTF-8">
@@ -18,30 +19,52 @@
 
 body {
     min-height: 100vh;
+
     background:
-        radial-gradient(circle at 80% 20%, rgba(100, 0, 0, 0.35), transparent 35%),
-        radial-gradient(circle at 20% 80%, rgba(40, 40, 40, 0.25), transparent 35%),
+        radial-gradient(
+            circle at 80% 20%,
+            rgba(100, 0, 0, 0.35),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 20% 80%,
+            rgba(40, 40, 40, 0.25),
+            transparent 35%
+        ),
         #090909;
 
     color: white;
+
     font-family: Arial, Helvetica, sans-serif;
 }
 
 body::before {
     content: "";
+
     position: fixed;
     inset: 0;
+
     background: rgba(0, 0, 0, .35);
+
     backdrop-filter: blur(3px);
+
     pointer-events: none;
 }
 
+
+/* =========================
+   ОСНОВНАЯ СТРАНИЦА
+========================= */
+
 .page {
+
     width: 92%;
     max-width: 1500px;
+
     margin: auto;
 
     display: grid;
+
     grid-template-columns: 1.4fr .8fr;
 
     gap: 70px;
@@ -55,15 +78,20 @@ body::before {
 ========================= */
 
 .left {
+
     position: relative;
+
     z-index: 2;
 }
 
 h1 {
+
     font-size: clamp(38px, 4vw, 65px);
+
     font-weight: 900;
 
     line-height: .95;
+
     letter-spacing: -3px;
 
     margin-bottom: 12px;
@@ -72,9 +100,11 @@ h1 {
 }
 
 .artist {
+
     color: #777;
 
     font-size: 18px;
+
     letter-spacing: 2px;
 
     margin-bottom: 35px;
@@ -86,12 +116,16 @@ h1 {
 ========================= */
 
 .tracks {
+
     display: flex;
+
     flex-direction: column;
+
     gap: 13px;
 }
 
 .track {
+
     background: rgba(255,255,255,.045);
 
     border: 1px solid rgba(255,255,255,.08);
@@ -106,19 +140,22 @@ h1 {
 }
 
 .track:hover {
+
     transform: translateX(5px);
 
     background: rgba(130,0,0,.12);
 
     border-color: rgba(180,0,0,.35);
 
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4);
 }
 
 
-/* АКТИВНЫЙ ТРЕК */
+/* Активный трек */
 
 .track.active {
+
     background: rgba(130,0,0,.16);
 
     border-color: rgba(180,0,0,.45);
@@ -130,11 +167,13 @@ h1 {
 
 
 /* =========================
-   НАЗВАНИЕ ТРЕКА
+   НАЗВАНИЕ
 ========================= */
 
 .track-name {
+
     display: flex;
+
     align-items: center;
 
     gap: 15px;
@@ -147,6 +186,7 @@ h1 {
 }
 
 .number {
+
     width: 25px;
 
     color: #666;
@@ -156,11 +196,13 @@ h1 {
 
 
 /* =========================
-   AUDIO
+   ПЛЕЕР
 ========================= */
 
 audio {
+
     width: 100%;
+
     height: 38px;
 
     opacity: .85;
@@ -179,6 +221,7 @@ audio {
 ========================= */
 
 .right {
+
     position: sticky;
 
     top: 50px;
@@ -193,6 +236,7 @@ audio {
 }
 
 .album {
+
     width: min(430px, 90%);
 
     text-align: center;
@@ -204,6 +248,7 @@ audio {
 ========================= */
 
 .cover-box {
+
     width: 100%;
 
     aspect-ratio: 1 / 1;
@@ -226,7 +271,9 @@ audio {
 }
 
 .cover-box img {
+
     width: 100%;
+
     height: 100%;
 
     display: block;
@@ -257,7 +304,6 @@ audio {
     100% {
         transform: translateY(0);
     }
-
 }
 
 
@@ -266,6 +312,7 @@ audio {
 ========================= */
 
 .album-title {
+
     margin-top: 22px;
 
     font-size: 24px;
@@ -276,6 +323,7 @@ audio {
 }
 
 .album-subtitle {
+
     margin-top: 7px;
 
     color: #777;
@@ -293,12 +341,14 @@ audio {
 @media (max-width: 900px) {
 
     .page {
+
         grid-template-columns: 1fr;
 
         gap: 40px;
     }
 
     .right {
+
         position: relative;
 
         top: 0;
@@ -307,6 +357,7 @@ audio {
     }
 
     .album {
+
         width: min(450px, 90vw);
     }
 
@@ -323,295 +374,351 @@ audio {
 <div class="page">
 
 
-    <!-- =========================
-         ЛЕВАЯ ЧАСТЬ — ТРЕКИ
-    ========================== -->
+<!-- =========================
+     ЛЕВАЯ ЧАСТЬ
+========================= -->
 
-    <section class="left">
+<section class="left">
 
-        <h1>
-            REST IN BASS:<br>
-            ENCORE
-        </h1>
+<h1>
+REST IN BASS:<br>
+ENCORE
+</h1>
 
-        <div class="artist">
-            CHE · 14 TRACKS
-        </div>
+<div class="artist">
+CHE · 14 TRACKS
+</div>
 
 
-        <div class="tracks">
+<div class="tracks">
 
 
-            <!-- 01 -->
+<!-- 01 -->
 
-            <div class="track">
+<div class="track">
 
-                <div class="track-name">
-                    <span class="number">01</span>
-                    KING OF ROCK
-                </div>
+<div class="track-name">
 
-                <audio controls>
-                    <source src="01 KING OF ROCK.mp3" type="audio/mpeg">
-                    <source src="Che - KING OF ROCK.mp3" type="audio/mpeg">
-                </audio>
+<span class="number">01</span>
 
-            </div>
+KING OF ROCK
 
+</div>
 
-            <!-- 02 -->
+<audio controls preload="metadata">
 
-            <div class="track">
+<source src="01 KING OF ROCK.mp3" type="audio/mpeg">
 
-                <div class="track-name">
-                    <span class="number">02</span>
-                    MAKE OUT WITH MY CHOPPA
-                </div>
+</audio>
 
-                <audio controls>
-                    <source src="02 MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
-                    <source src="Che - MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
-                </audio>
+</div>
 
-            </div>
 
+<!-- 02 -->
 
-            <!-- 03 -->
+<div class="track">
 
-            <div class="track">
+<div class="track-name">
 
-                <div class="track-name">
-                    <span class="number">03</span>
-                    HOLY MOLY
-                </div>
+<span class="number">02</span>
 
-                <audio controls>
-                    <source src="03 HOLY MOLY.mp3" type="audio/mpeg">
-                    <source src="Che - HOLY MOLY.mp3" type="audio/mpeg">
-                </audio>
+MAKE OUT WITH MY CHOPPA
 
-            </div>
+</div>
 
+<audio controls preload="metadata">
 
-            <!-- 04 -->
+<source src="02 MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
 
-            <div class="track">
+</audio>
 
-                <div class="track-name">
-                    <span class="number">04</span>
-                    DIE HARD
-                </div>
+</div>
 
-                <audio controls>
-                    <source src="04 DIE HARD.mp3" type="audio/mpeg">
-                    <source src="Che - DIE HARD.mp3" type="audio/mpeg">
-                </audio>
 
-            </div>
+<!-- 03 -->
 
+<div class="track">
 
-            <!-- 05 -->
+<div class="track-name">
 
-            <div class="track">
+<span class="number">03</span>
 
-                <div class="track-name">
-                    <span class="number">05</span>
-                    CUTTHROAT
-                </div>
+HOLY MOLY
 
-                <audio controls>
-                    <source src="05 CUTTHROAT.mp3" type="audio/mpeg">
-                    <source src="Che - CUTTHROAT.mp3" type="audio/mpeg">
-                </audio>
+</div>
 
-            </div>
+<audio controls preload="metadata">
 
+<source src="03 HOLY MOLY.mp3" type="audio/mpeg">
 
-            <!-- 06 -->
+</audio>
 
-            <div class="track">
+</div>
 
-                <div class="track-name">
-                    <span class="number">06</span>
-                    MONSTER
-                </div>
 
-                <audio controls>
-                    <source src="06 MONSTER.mp3" type="audio/mpeg">
-                    <source src="Che - MONSTER.mp3" type="audio/mpeg">
-                </audio>
+<!-- 04 -->
 
-            </div>
+<div class="track">
 
+<div class="track-name">
 
-            <!-- 07 -->
+<span class="number">04</span>
 
-            <div class="track">
+DIE HARD
 
-                <div class="track-name">
-                    <span class="number">07</span>
-                    DIRTY SPRITE
-                </div>
+</div>
 
-                <audio controls>
-                    <source src="07 DIRTY SPRITE.mp3" type="audio/mpeg">
-                    <source src="Che - DIRTY SPRITE.mp3" type="audio/mpeg">
-                </audio>
+<audio controls preload="metadata">
 
-            </div>
+<source src="04 DIE HARD.mp3" type="audio/mpeg">
 
+</audio>
 
-            <!-- 08 -->
+</div>
 
-            <div class="track">
 
-                <div class="track-name">
-                    <span class="number">08</span>
-                    SERVE DA BA$$
-                </div>
+<!-- 05 -->
 
-                <audio controls>
-                    <source src="08 SERVE DA BA$$.mp3" type="audio/mpeg">
-                    <source src="Che - SERVE DA BA$$.mp3" type="audio/mpeg">
-                </audio>
+<div class="track">
 
-            </div>
+<div class="track-name">
 
+<span class="number">05</span>
 
-            <!-- 09 -->
+CUTTHROAT
 
-            <div class="track">
+</div>
 
-                <div class="track-name">
-                    <span class="number">09</span>
-                    RIRI
-                </div>
+<audio controls preload="metadata">
 
-                <audio controls>
-                    <source src="09 RIRI.mp3" type="audio/mpeg">
-                    <source src="Che - RIRI.mp3" type="audio/mpeg">
-                </audio>
+<source src="05 CUTTHROAT.mp3" type="audio/mpeg">
 
-            </div>
+</audio>
 
+</div>
 
-            <!-- 10 -->
 
-            <div class="track">
+<!-- 06 -->
 
-                <div class="track-name">
-                    <span class="number">10</span>
-                    WHIPPIN
-                </div>
+<div class="track">
 
-                <audio controls>
-                    <source src="10 WHIPPIN.mp3" type="audio/mpeg">
-                    <source src="Che - WHIPPIN.mp3" type="audio/mpeg">
-                </audio>
+<div class="track-name">
 
-            </div>
+<span class="number">06</span>
 
+MONSTER
 
-            <!-- 11 -->
+</div>
 
-            <div class="track">
+<audio controls preload="metadata">
 
-                <div class="track-name">
-                    <span class="number">11</span>
-                    WHATS LOVE
-                </div>
+<source src="06 MONSTER.mp3" type="audio/mpeg">
 
-                <audio controls>
-                    <source src="11 WHATS LOVE.mp3" type="audio/mpeg">
-                    <source src="Che - WHATS LOVE.mp3" type="audio/mpeg">
-                </audio>
+</audio>
 
-            </div>
+</div>
 
 
-            <!-- 12 -->
+<!-- 07 -->
 
-            <div class="track">
+<div class="track">
 
-                <div class="track-name">
-                    <span class="number">12</span>
-                    FREAK NEEK
-                </div>
+<div class="track-name">
 
-                <audio controls>
-                    <source src="12 FREAK NEEK.mp3" type="audio/mpeg">
-                    <source src="Che - FREAK NEEK.mp3" type="audio/mpeg">
-                </audio>
+<span class="number">07</span>
 
-            </div>
+DIRTY SPRITE
 
+</div>
 
-            <!-- 13 -->
+<audio controls preload="metadata">
 
-            <div class="track">
+<source src="07 DIRTY SPRITE.mp3" type="audio/mpeg">
 
-                <div class="track-name">
-                    <span class="number">13</span>
-                    UAV
-                </div>
+</audio>
 
-                <audio controls>
-                    <source src="13 UAV.mp3" type="audio/mpeg">
-                    <source src="Che - UAV.mp3" type="audio/mpeg">
-                </audio>
+</div>
 
-            </div>
 
+<!-- 08 -->
 
-            <!-- 14 -->
+<div class="track">
 
-            <div class="track">
+<div class="track-name">
 
-                <div class="track-name">
-                    <span class="number">14</span>
-                    IM SORRY
-                </div>
+<span class="number">08</span>
 
-                <audio controls>
-                    <source src="14 IM SORRY.mp3" type="audio/mpeg">
-                    <source src="Che - IM SORRY.mp3" type="audio/mpeg">
-                </audio>
+SERVE DA BA$$
 
-            </div>
+</div>
 
+<audio controls preload="metadata">
 
-        </div>
+<source src="08 SERVE DA BA$$.mp3" type="audio/mpeg">
 
-    </section>
+</audio>
 
+</div>
 
-    <!-- =========================
-         ПРАВАЯ ЧАСТЬ — ОБЛОЖКА
-    ========================== -->
 
-    <section class="right">
+<!-- 09 -->
 
-        <div class="album">
+<div class="track">
 
-            <div class="cover-box">
+<div class="track-name">
 
-                <img
-                    src="cover.jpg"
-                    alt="REST IN BASS: ENCORE">
+<span class="number">09</span>
 
-            </div>
+RIRI
 
-            <div class="album-title">
-                CHE
-            </div>
+</div>
 
-            <div class="album-subtitle">
-                REST IN BASS: ENCORE
-            </div>
+<audio controls preload="metadata">
 
-        </div>
+<source src="09 RIRI.mp3" type="audio/mpeg">
 
-    </section>
+</audio>
+
+</div>
+
+
+<!-- 10 -->
+
+<div class="track">
+
+<div class="track-name">
+
+<span class="number">10</span>
+
+WHIPPIN
+
+</div>
+
+<audio controls preload="metadata">
+
+<source src="10 WHIPPIN.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+
+<!-- 11 -->
+
+<div class="track">
+
+<div class="track-name">
+
+<span class="number">11</span>
+
+WHATS LOVE
+
+</div>
+
+<audio controls preload="metadata">
+
+<source src="11 WHATS LOVE.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+
+<!-- 12 -->
+
+<div class="track">
+
+<div class="track-name">
+
+<span class="number">12</span>
+
+FREAK NEEK
+
+</div>
+
+<audio controls preload="metadata">
+
+<source src="12 FREAK NEEK.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+
+<!-- 13 -->
+
+<div class="track">
+
+<div class="track-name">
+
+<span class="number">13</span>
+
+UAV
+
+</div>
+
+<audio controls preload="metadata">
+
+<source src="13 UAV.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+
+<!-- 14 -->
+
+<div class="track">
+
+<div class="track-name">
+
+<span class="number">14</span>
+
+IM SORRY
+
+</div>
+
+<audio controls preload="metadata">
+
+<source src="14 IM SORRY.mp3" type="audio/mpeg">
+
+</audio>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     ПРАВАЯ ЧАСТЬ
+========================= -->
+
+<section class="right">
+
+<div class="album">
+
+<div class="cover-box">
+
+<img
+src="cover.jpg"
+alt="REST IN BASS: ENCORE">
+
+</div>
+
+<div class="album-title">
+CHE
+</div>
+
+<div class="album-subtitle">
+REST IN BASS: ENCORE
+</div>
+
+</div>
+
+</section>
 
 
 </div>
@@ -619,38 +726,35 @@ audio {
 
 <script>
 
+
 /*
-==================================================
-       СИСТЕМА ПЛЕЕРА
-==================================================
-
-Главное:
-одновременно может играть только один audio.
-
-==================================================
+=========================================
+   ВСЕ 14 АУДИОПЛЕЕРОВ
+=========================================
 */
 
-
 const players = document.querySelectorAll("audio");
-const tracks = document.querySelectorAll(".track");
+
+const trackCards = document.querySelectorAll(".track");
 
 
 /*
-==================================================
-       КОГДА НАЖАЛИ PLAY
-==================================================
+=========================================
+   ТОЛЬКО ОДНА ПЕСНЯ МОЖЕТ ИГРАТЬ
+=========================================
 */
 
 players.forEach((player, index) => {
 
-    player.addEventListener("play", () => {
+
+    player.addEventListener("play", function() {
 
 
         /*
-        Останавливаем ВСЕ остальные песни
+        Останавливаем все остальные
         */
 
-        players.forEach((otherPlayer, otherIndex) => {
+        players.forEach((otherPlayer) => {
 
             if (otherPlayer !== player) {
 
@@ -662,95 +766,94 @@ players.forEach((player, index) => {
 
 
         /*
-        Убираем активный класс
-        со всех треков
+        Убираем active у всех
         */
 
-        tracks.forEach(track => {
+        trackCards.forEach((card) => {
 
-            track.classList.remove("active");
+            card.classList.remove("active");
 
         });
 
 
         /*
-        Подсвечиваем текущий трек
+        Делаем текущий трек активным
         */
 
-        tracks[index].classList.add("active");
+        trackCards[index].classList.add("active");
 
     });
 
 
     /*
-    ==============================================
-       ЕСЛИ ПОСТАВИЛИ НА ПАУЗУ
-    ==============================================
+    =====================================
+       ПЕСНЯ ЗАКОНЧИЛАСЬ
+    =====================================
     */
 
-    player.addEventListener("pause", () => {
-
-        /*
-        Не убираем active сразу,
-        если песня просто переключается.
-        */
-
-        if (!player.ended) {
-
-            tracks[index].classList.remove("active");
-
-        }
-
-    });
+    player.addEventListener("ended", function() {
 
 
-    /*
-    ==============================================
-       КОГДА ПЕСНЯ ЗАКОНЧИЛАСЬ
-    ==============================================
-    */
-
-    player.addEventListener("ended", () => {
+        trackCards[index].classList.remove("active");
 
 
         /*
-        Убираем активность
-        */
-
-        tracks[index].classList.remove("active");
-
-
-        /*
-        Находим следующий трек
+        Индекс следующей песни
         */
 
         const nextIndex = index + 1;
 
 
         /*
-        Если есть следующий трек —
-        запускаем его
+        Если есть следующий трек
         */
 
         if (nextIndex < players.length) {
 
-            players[nextIndex].currentTime = 0;
 
-            players[nextIndex].play();
+            const nextPlayer = players[nextIndex];
+
+
+            nextPlayer.currentTime = 0;
+
+
+            /*
+            Запускаем следующую песню
+            */
+
+            nextPlayer.play().catch(function(error) {
+
+                console.log(
+                    "Не удалось автоматически запустить следующий трек:",
+                    error
+                );
+
+            });
 
         }
 
 
         /*
-        Если закончился 14-й,
-        начинаем снова с 1-го
+        После 14-го начинаем с 1-го
         */
 
         else {
 
-            players[0].currentTime = 0;
 
-            players[0].play();
+            const firstPlayer = players[0];
+
+
+            firstPlayer.currentTime = 0;
+
+
+            firstPlayer.play().catch(function(error) {
+
+                console.log(
+                    "Не удалось автоматически запустить первый трек:",
+                    error
+                );
+
+            });
 
         }
 
@@ -758,36 +861,6 @@ players.forEach((player, index) => {
 
 });
 
-
-/*
-==================================================
-       ДОПОЛНИТЕЛЬНАЯ ЗАЩИТА
-==================================================
-
-Если браузер каким-то образом пытается
-запустить несколько audio одновременно,
-этот код всё равно остановит остальные.
-
-==================================================
-*/
-
-players.forEach(player => {
-
-    player.addEventListener("playing", () => {
-
-        players.forEach(otherPlayer => {
-
-            if (otherPlayer !== player) {
-
-                otherPlayer.pause();
-
-            }
-
-        });
-
-    });
-
-});
 
 </script>
 
