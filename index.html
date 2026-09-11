@@ -1,838 +1,547 @@
-```html
 <!DOCTYPE html>
-<html lang="ru">
-
+<html lang="uk">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>REST IN BASS: ENCORE — CHE</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    min-height: 100vh;
-
-    background:
-        radial-gradient(circle at 80% 20%, rgba(100, 0, 0, 0.35), transparent 35%),
-        radial-gradient(circle at 20% 80%, rgba(40, 40, 40, 0.25), transparent 35%),
-        #090909;
-
-    color: white;
-
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,.35);
-
-    backdrop-filter: blur(3px);
-
-    pointer-events: none;
-}
-
-
-/* =========================
-   ОСНОВНАЯ СТРАНИЦА
-========================= */
-
-.page {
-
-    width: 92%;
-    max-width: 1500px;
-
-    margin: auto;
-
-    display: grid;
-
-    grid-template-columns: 1.4fr .8fr;
-
-    gap: 70px;
-
-    padding: 50px 0;
-}
-
-
-/* =========================
-   ЛЕВАЯ ЧАСТЬ
-========================= */
-
-.left {
-    position: relative;
-    z-index: 2;
-}
-
-h1 {
-
-    font-size: clamp(38px, 4vw, 65px);
-
-    font-weight: 900;
-
-    line-height: .95;
-
-    letter-spacing: -3px;
-
-    margin-bottom: 12px;
-
-    text-transform: uppercase;
-}
-
-.artist {
-
-    color: #777;
-
-    font-size: 18px;
-
-    letter-spacing: 2px;
-
-    margin-bottom: 35px;
-}
-
-
-/* =========================
-   ТРЕКИ
-========================= */
-
-.tracks {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 13px;
-}
-
-.track {
-
-    background: rgba(255,255,255,.045);
-
-    border: 1px solid rgba(255,255,255,.08);
-
-    border-radius: 14px;
-
-    padding: 16px 20px;
-
-    backdrop-filter: blur(15px);
-
-    transition: .25s;
-}
-
-.track:hover {
-
-    transform: translateX(5px);
-
-    background: rgba(130,0,0,.12);
-
-    border-color: rgba(180,0,0,.35);
-
-    box-shadow: 0 10px 30px rgba(0,0,0,.4);
-}
-
-
-/* АКТИВНЫЙ ТРЕК */
-
-.track.active {
-
-    background: rgba(130,0,0,.16);
-
-    border-color: rgba(180,0,0,.45);
-}
-
-
-/* =========================
-   НАЗВАНИЕ ТРЕКА
-========================= */
-
-.track-name {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 15px;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    margin-bottom: 9px;
-}
-
-.number {
-
-    width: 25px;
-
-    color: #666;
-
-    font-size: 12px;
-}
-
-
-/* =========================
-   ПЛЕЕР
-========================= */
-
-audio {
-
-    width: 100%;
-
-    height: 38px;
-
-    opacity: .85;
-
-    filter:
-        invert(1)
-        sepia(1)
-        saturate(5)
-        hue-rotate(315deg)
-        brightness(.75);
-}
-
-
-/* =========================
-   ПРАВАЯ ЧАСТЬ
-========================= */
-
-.right {
-
-    position: sticky;
-
-    top: 50px;
-
-    height: fit-content;
-
-    display: flex;
-
-    justify-content: center;
-
-    z-index: 2;
-}
-
-.album {
-
-    width: min(430px, 90%);
-
-    text-align: center;
-}
-
-
-/* =========================
-   ОБЛОЖКА
-========================= */
-
-.cover-box {
-
-    width: 100%;
-
-    aspect-ratio: 1 / 1;
-
-    padding: 9px;
-
-    border-radius: 22px;
-
-    background: rgba(255,255,255,.05);
-
-    border: 1px solid rgba(255,255,255,.12);
-
-    backdrop-filter: blur(15px);
-
-    box-shadow:
-        0 20px 70px rgba(0,0,0,.7),
-        0 0 60px rgba(130,0,0,.25);
-
-    animation: floating 6s ease-in-out infinite;
-}
-
-.cover-box img {
-
-    width: 100%;
-
-    height: 100%;
-
-    display: block;
-
-    object-fit: cover;
-
-    border-radius: 15px;
-
-    box-shadow:
-        0 15px 50px rgba(0,0,0,.7);
-}
-
-
-/* =========================
-   АНИМАЦИЯ
-========================= */
-
-@keyframes floating {
-
-    0% {
-        transform: translateY(0);
-    }
-
-    50% {
-        transform: translateY(-8px);
-    }
-
-    100% {
-        transform: translateY(0);
-    }
-
-}
-
-
-/* =========================
-   ТЕКСТ ПОД ОБЛОЖКОЙ
-========================= */
-
-.album-title {
-
-    margin-top: 22px;
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-}
-
-.album-subtitle {
-
-    margin-top: 7px;
-
-    color: #777;
-
-    font-size: 14px;
-
-    letter-spacing: 2px;
-}
-
-
-/* =========================
-   МОБИЛЬНАЯ ВЕРСИЯ
-========================= */
-
-@media (max-width: 900px) {
-
-    .page {
-
-        grid-template-columns: 1fr;
-
-        gap: 40px;
-    }
-
-    .right {
-
-        position: relative;
-
-        top: 0;
-
-        order: -1;
-    }
-
-    .album {
-
-        width: min(450px, 90vw);
-    }
-
-}
-
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>REST IN BASS: ENCORE — CHE</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(120, 0, 0, 0.22), transparent 35%),
+                radial-gradient(circle at 85% 80%, rgba(90, 0, 0, 0.18), transparent 35%),
+                #090909;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .page {
+            width: 92%;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 50px 0;
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 70px;
+            align-items: start;
+        }
+
+        /* LEFT SIDE */
+
+        .left {
+            min-width: 0;
+        }
+
+        .header {
+            margin-bottom: 35px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: clamp(34px, 5vw, 72px);
+            line-height: 0.95;
+            font-weight: 900;
+            letter-spacing: -3px;
+        }
+
+        .artist {
+            margin-top: 14px;
+            color: #999;
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .tracks {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .track {
+            padding: 16px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.11);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.035);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .track:hover {
+            transform: translateX(5px);
+            border-color: rgba(190, 30, 30, 0.5);
+            background: rgba(160, 0, 0, 0.08);
+        }
+
+        .track.active {
+            border-color: rgba(220, 35, 35, 0.65);
+            background: rgba(150, 0, 0, 0.10);
+        }
+
+        .track-name {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 17px;
+            font-weight: 800;
+        }
+
+        .number {
+            color: #777;
+            min-width: 30px;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        audio {
+            display: block;
+            width: 100%;
+            height: 38px;
+            opacity: 0.9;
+            filter:
+                invert(1)
+                sepia(1)
+                saturate(5)
+                hue-rotate(315deg)
+                brightness(0.75);
+        }
+
+        /* RIGHT SIDE */
+
+        .right {
+            position: sticky;
+            top: 40px;
+        }
+
+        .cover-box {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            padding: 9px;
+            border-radius: 22px;
+
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.65),
+                0 0 50px rgba(120, 0, 0, 0.12);
+
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+
+            animation: floating 5s ease-in-out infinite;
+        }
+
+        .cover-box img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+            border-radius: 16px;
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .album-info {
+            margin-top: 25px;
+        }
+
+        .album-title {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .album-subtitle {
+            margin-top: 7px;
+            color: #777;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 900px) {
+
+            .page {
+                width: 92%;
+                padding: 30px 0 50px;
+                grid-template-columns: 1fr;
+                gap: 45px;
+            }
+
+            .right {
+                position: static;
+                grid-row: 1;
+            }
+
+            .left {
+                grid-row: 2;
+            }
+
+            .cover-box {
+                max-width: 650px;
+                margin: 0 auto;
+            }
+
+            .album-info {
+                max-width: 650px;
+                margin: 22px auto 0;
+            }
+
+            .header h1 {
+                font-size: clamp(32px, 10vw, 55px);
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .page {
+                width: 94%;
+                padding-top: 20px;
+                gap: 35px;
+            }
+
+            .track {
+                padding: 14px 15px;
+            }
+
+            .track-name {
+                font-size: 15px;
+            }
+
+            audio {
+                height: 36px;
+            }
+
+            .artist {
+                font-size: 11px;
+                letter-spacing: 3px;
+            }
+        }
+    </style>
 </head>
-
 
 <body>
 
-
 <div class="page">
 
-
-<!-- =========================
-     ЛЕВАЯ ЧАСТЬ
-========================= -->
-
-<section class="left">
-
-<h1>
-REST IN BASS:<br>
-ENCORE
-</h1>
-
-<div class="artist">
-CHE · 14 TRACKS
-</div>
-
-
-<div class="tracks">
-
-
-<!-- 01 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">01</span>
-KING OF ROCK
-</div>
-
-<audio controls preload="metadata">
-
-<source src="01 KING OF ROCK.mp3" type="audio/mpeg">
-
-<source src="Che - KING OF ROCK.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 02 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">02</span>
-MAKE OUT WITH MY CHOPPA
-</div>
-
-<audio controls preload="metadata">
-
-<source src="02 MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
-
-<source src="Che - MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 03 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">03</span>
-HOLY MOLY
-</div>
-
-<audio controls preload="metadata">
-
-<source src="03 HOLY MOLY.mp3" type="audio/mpeg">
-
-<source src="Che - HOLY MOLY.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 04 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">04</span>
-DIE HARD
-</div>
-
-<audio controls preload="metadata">
-
-<source src="04 DIE HARD.mp3" type="audio/mpeg">
-
-<source src="Che - DIE HARD.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 05 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">05</span>
-CUTTHROAT
-</div>
-
-<audio controls preload="metadata">
-
-<source src="05 CUTTHROAT.mp3" type="audio/mpeg">
-
-<source src="Che - CUTTHROAT.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 06 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">06</span>
-MONSTER
-</div>
-
-<audio controls preload="metadata">
-
-<source src="06 MONSTER.mp3" type="audio/mpeg">
-
-<source src="Che - MONSTER.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 07 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">07</span>
-DIRTY SPRITE
-</div>
-
-<audio controls preload="metadata">
-
-<source src="07 DIRTY SPRITE.mp3" type="audio/mpeg">
-
-<source src="Che - DIRTY SPRITE.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 08 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">08</span>
-SERVE DA BA$$
-</div>
-
-<audio controls preload="metadata">
-
-<source src="08 SERVE DA BA$$.mp3" type="audio/mpeg">
-
-<source src="Che - SERVE DA BA$$.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 09 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">09</span>
-RIRI
-</div>
-
-<audio controls preload="metadata">
-
-<source src="09 RIRI.mp3" type="audio/mpeg">
-
-<source src="Che - RIRI.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 10 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">10</span>
-WHIPPIN
-</div>
-
-<audio controls preload="metadata">
-
-<source src="10 WHIPPIN.mp3" type="audio/mpeg">
-
-<source src="Che - WHIPPIN.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 11 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">11</span>
-WHATS LOVE
-</div>
-
-<audio controls preload="metadata">
-
-<source src="11 WHATS LOVE.mp3" type="audio/mpeg">
-
-<source src="Che - WHATS LOVE.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 12 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">12</span>
-FREAK NEEK
-</div>
-
-<audio controls preload="metadata">
-
-<source src="12 FREAK NEEK.mp3" type="audio/mpeg">
-
-<source src="Che - FREAK NEEK.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 13 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">13</span>
-UAV
-</div>
-
-<audio controls preload="metadata">
-
-<source src="13 UAV.mp3" type="audio/mpeg">
-
-<source src="Che - UAV.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-<!-- 14 -->
-
-<div class="track">
-
-<div class="track-name">
-<span class="number">14</span>
-IM SORRY
-</div>
-
-<audio controls preload="metadata">
-
-<source src="14 IM SORRY.mp3" type="audio/mpeg">
-
-<source src="Che - IM SORRY.mp3" type="audio/mpeg">
-
-</audio>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     ПРАВАЯ ЧАСТЬ
-========================= -->
-
-<section class="right">
-
-<div class="album">
-
-<div class="cover-box">
-
-<img
-src="cover.jpg"
-alt="REST IN BASS: ENCORE">
-
-</div>
-
-<div class="album-title">
-CHE
-</div>
-
-<div class="album-subtitle">
-REST IN BASS: ENCORE
-</div>
-
-</div>
-
-</section>
-
+    <!-- LEFT -->
+    <main class="left">
+
+        <header class="header">
+            <h1>REST IN BASS:<br>ENCORE</h1>
+            <div class="artist">CHE · 14 TRACKS</div>
+        </header>
+
+        <section class="tracks">
+
+            <!-- 01 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">01</span>
+                    <span>KING OF ROCK</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - KING OF ROCK.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 02 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">02</span>
+                    <span>MAKE OUT WITH MY CHOPPA</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - MAKE OUT WITH MY CHOPPA.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 03 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">03</span>
+                    <span>HOLY MOLY</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - HOLY MOLY.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 04 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">04</span>
+                    <span>DIE HARD</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - DIE HARD.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 05 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">05</span>
+                    <span>CUTTHROAT</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - CUTTHROAT.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 06 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">06</span>
+                    <span>MONSTER</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - MONSTER.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 07 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">07</span>
+                    <span>DIRTY SPRITE</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - DIRTY SPRITE.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 08 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">08</span>
+                    <span>SERVE DA BA$$</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - SERVE DA BA$$.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 09 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">09</span>
+                    <span>RIRI</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - RIRI.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 10 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">10</span>
+                    <span>WHIPPIN</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - WHIPPIN.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 11 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">11</span>
+                    <span>WHATS LOVE</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - WHATS LOVE.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 12 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">12</span>
+                    <span>FREAK NEEK</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - FREAK NEEK.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 13 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">13</span>
+                    <span>UAV</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - UAV.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+            <!-- 14 -->
+            <div class="track">
+                <div class="track-name">
+                    <span class="number">14</span>
+                    <span>IM SORRY</span>
+                </div>
+
+                <audio controls preload="metadata">
+                    <source src="Che - IM SORRY.mp3" type="audio/mpeg">
+                    Your browser does not support audio.
+                </audio>
+            </div>
+
+        </section>
+    </main>
+
+
+    <!-- RIGHT -->
+    <aside class="right">
+
+        <div class="cover-box">
+            <img src="cover.jpg" alt="REST IN BASS: ENCORE cover">
+        </div>
+
+        <div class="album-info">
+            <h2 class="album-title">CHE</h2>
+            <div class="album-subtitle">REST IN BASS: ENCORE</div>
+        </div>
+
+    </aside>
 
 </div>
 
 
 <script>
+    /*
+     * MUSIC PLAYER
+     *
+     * 1. Одновременно играет только один трек.
+     * 2. При окончании трека автоматически запускается следующий.
+     * 3. После 14-го снова запускается 1-й.
+     */
 
-/*
-====================================================
-       ОДИН ТРЕК ЗА РАЗ
-====================================================
+    const players = Array.from(document.querySelectorAll("audio"));
+    const tracks = Array.from(document.querySelectorAll(".track"));
 
-У каждого трека остаётся свой audio-плеер.
+    players.forEach((player, index) => {
 
-Когда человек нажимает Play:
-все остальные автоматически останавливаются.
+        /* Когда пользователь нажал Play */
+        player.addEventListener("play", () => {
 
-====================================================
-*/
+            /* Останавливаем ВСЕ остальные плееры */
+            players.forEach((otherPlayer, otherIndex) => {
 
+                if (otherPlayer !== player) {
+                    otherPlayer.pause();
 
-const players = document.querySelectorAll("audio");
+                    if (tracks[otherIndex]) {
+                        tracks[otherIndex].classList.remove("active");
+                    }
+                }
 
-const cards = document.querySelectorAll(".track");
+            });
 
-
-/*
-====================================================
-       ЗАПУСК ТРЕКА
-====================================================
-*/
-
-players.forEach((player, index) => {
-
-    player.addEventListener("play", function() {
+            /* Подсвечиваем текущий трек */
+            if (tracks[index]) {
+                tracks[index].classList.add("active");
+            }
+        });
 
 
-        /*
-        Останавливаем ВСЕ остальные плееры
-        */
+        /* Когда трек поставили на паузу */
+        player.addEventListener("pause", () => {
 
-        players.forEach((otherPlayer) => {
-
-            if (otherPlayer !== player) {
-
-                otherPlayer.pause();
-
+            if (!player.ended && tracks[index]) {
+                tracks[index].classList.remove("active");
             }
 
         });
 
 
-        /*
-        Убираем подсветку
-        */
+        /* Когда трек полностью закончился */
+        player.addEventListener("ended", () => {
 
-        cards.forEach((card) => {
+            if (tracks[index]) {
+                tracks[index].classList.remove("active");
+            }
 
-            card.classList.remove("active");
+            let nextIndex = index + 1;
+
+            /* После 14-го возвращаемся к первому */
+            if (nextIndex >= players.length) {
+                nextIndex = 0;
+            }
+
+            const nextPlayer = players[nextIndex];
+
+            if (nextPlayer) {
+
+                nextPlayer.currentTime = 0;
+
+                nextPlayer.play().catch(error => {
+                    console.log("Автозапуск следующего трека заблокирован браузером:", error);
+                });
+
+            }
 
         });
 
-
-        /*
-        Подсвечиваем текущий трек
-        */
-
-        cards[index].classList.add("active");
-
     });
-
-
-    /*
-    ==================================================
-       ПАУЗА
-    ==================================================
-    */
-
-    player.addEventListener("pause", function() {
-
-        if (!player.ended) {
-
-            cards[index].classList.remove("active");
-
-        }
-
-    });
-
-
-    /*
-    ==================================================
-       КОНЕЦ ТРЕКА
-    ==================================================
-    */
-
-    player.addEventListener("ended", function() {
-
-
-        cards[index].classList.remove("active");
-
-
-        /*
-        Следующий трек
-        */
-
-        const nextIndex = index + 1;
-
-
-        /*
-        Если есть следующий —
-        автоматически запускаем его
-        */
-
-        if (nextIndex < players.length) {
-
-            players[nextIndex].currentTime = 0;
-
-            players[nextIndex].play().catch(() => {});
-
-        }
-
-
-        /*
-        После 14-го возвращаемся к 01
-        */
-
-        else {
-
-            players[0].currentTime = 0;
-
-            players[0].play().catch(() => {});
-
-        }
-
-    });
-
-});
-
-
 </script>
 
-
 </body>
-
 </html>
-```
